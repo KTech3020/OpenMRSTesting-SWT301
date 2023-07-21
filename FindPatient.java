@@ -6,8 +6,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class SearchPatient {
-    public static void SearchPatient(){
+import java.util.ArrayList;
+import java.util.List;
+
+public class FindPatientRecord {
+
+    public static void FindPatientRecord() {
+
         WebDriver driver = WebConnect.connect();
         WebElement username = driver.findElement(By.name("username"));
         username.sendKeys("Admin");
@@ -17,89 +22,75 @@ public class SearchPatient {
 
         WebElement locationDropdown = driver.findElement(By.id("sessionLocation"));
 
-        // Click on the dropdown to open the options
+
         locationDropdown.click();
 
-        // Find the desired location option by its value attribute
         WebElement desiredLocationOption = driver.findElement(By.cssSelector("li[value='6']")); // Replace '4' with the desired value
 
-        // Click on the desired location option
         desiredLocationOption.click();
 
-        // Get the selected location valuee
         String selectedLocation = desiredLocationOption.getText();
         System.out.println("Selected Location: " + selectedLocation);
 
-
         WebElement button =  driver.findElement(By.xpath("//*[@id=\"loginButton\"]"));
         button.click();
-//                  ---Login xong r moi tiep tuc duoc---
 
-//      Click vao nut Data Management
-        WebElement buttonDataManagemet = driver.findElement(By.xpath("/html/body/div/div[3]/div[3]/div/a[9]"));
-        buttonDataManagemet.click();
+//        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[3]/button")).click();
 
-//        Click vao nut Merge Patient Electronic Records
-        WebElement buttonMergePatient = driver.findElement(By.xpath("/html/body/div/div[3]/div/div/a"));
-        buttonMergePatient.click();
 
-//        Nhap data vo test
-        PatientRecord pr = new PatientRecord("1001PD", "Mary Thompson");
 
-        WebElement inputField = driver.findElement(By.id("patient-search"));
+        WebElement buttonFind = driver.findElement(By.xpath("/html/body/div/div[3]/div[3]/div/a[1]"));
+        buttonFind.click();
 
-//        Search by true id
-        inputField.sendKeys(pr.getId());
+        PatientRecord p1 = new PatientRecord("1001PD", "Mary Thompson");
+        PatientRecord p2 = new PatientRecord("1003FW", "John White");
+        WebElement findField = driver.findElement(By.id("patient-search"));
+
+//        search by id
+        findField.sendKeys(p1.getId());
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        inputField.clear();
+        findField.clear();
 
-//        Search by true Name
-        inputField.sendKeys(pr.getName());
+//        search by name
+        findField.sendKeys(p1.getName());
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        inputField.clear();
+        findField.clear();
 
-//        Seach by Wrong ID
-        inputField.sendKeys("1231abcxyzdasdqwerqwmc");
+//        search by Wrong data
+        findField.sendKeys("123abcxyzhkt");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        inputField.clear();
+        findField.clear();
 
-//        Seach by wrong Name
-        inputField.sendKeys("Hello World It's Me!");
+        //        search by Multiple name
+        findField.sendKeys(p2.getName());
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        inputField.clear();
+        findField.clear();
 
-//        Search by multiple Name
-        inputField.sendKeys("John");
+        //        search by Blank Space
+        findField.sendKeys("    ");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        inputField.clear();
+        findField.clear();
 
-//        Search by blank space
-        inputField.sendKeys("      ");
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        inputField.clear();
+//        driver.quit();
     }
 }
